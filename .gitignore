@@ -6,5 +6,10 @@ dist/
 wheels/
 *.egg-info
 
+# Output folders
+html/
+markdown/
+site_map.json
+
 # Virtual environments
 .venv
