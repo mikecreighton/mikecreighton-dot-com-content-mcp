@@ -28,11 +28,11 @@ logger = logging.getLogger(__name__)
 class PageInfo(TypedDict):
     """Type definition for page information in the site map."""
 
-    base: str
-    file: str
-    markdown: str
-    name: str
-    description: str
+    base: str  # Base path of the page which acts as the unique identifier
+    html: str  # Path to the HTML file
+    markdown: str  # Path to the Markdown file
+    name: str  # Title of the page
+    description: str  # Description of the page
 
 
 class WebsiteCrawler:
@@ -288,7 +288,7 @@ class WebsiteCrawler:
             # Add to site map
             self.site_map[base_path] = {
                 "base": base_path,
-                "file": f"./html/{base_path}.html",
+                "html": f"./html/{base_path}.html",
                 "markdown": f"./markdown/{base_path}.md" if markdown_success else "",
                 "name": title,
                 "description": description,
