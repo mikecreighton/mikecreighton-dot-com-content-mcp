@@ -1,0 +1,10 @@
+[project]
+name = "mikecreighton-dot-com-content-mcp"
+version = "0.1.0"
+description = "A Model Context Protocol Server for MikeCreighton.com Content"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "markitdown>=0.0.2",
+    "mcp[cli]>=1.3.0",
+]
