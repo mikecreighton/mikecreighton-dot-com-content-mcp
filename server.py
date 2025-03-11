@@ -108,7 +108,7 @@ async def list_pages() -> List[Dict[str, str]]:
     return pages
 
 
-@mcp.tool("search_pages")
+@mcp.tool("search_mikecreighton_website_pages")
 async def search_pages(query: str) -> List[Dict[str, str]]:
     """
     Tool that searches for pages on Mike Creighton Consulting's website (https://mikecreighton.com) containing exact string matches for the query in a page's title or description.

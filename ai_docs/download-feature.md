@@ -20,7 +20,7 @@ Finally, it will create a map of the website as a JSON object, representing the 
 ```json
 {
   "base": "{page_path}/{page}", // Used for resource listing in the MCP server
-  "file": "./html/{page_path}/{page}.html", // Used to reference the corresponding local HTML file
+  "html": "./html/{page_path}/{page}.html", // Used to reference the corresponding local HTML file
   "markdown": "./markdown/{page_path}/{page}.md", // Used to reference the corresponding local Markdown file
   "name": "{title of the page extracted from the <title> tag}",
   "description": "{description of the page extracted from the <meta name='description'> tag}"
