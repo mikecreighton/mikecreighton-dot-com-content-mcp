@@ -1,6 +1,6 @@
 # MikeCreighton.com Content MCP Server
 
-This is a Model Context Protocol (MCP) server that will provide all of the [Mike Creighton Consulting website](https://mikecreighton.com) pages as Resources to any MCP clients.
+This is a local Model Context Protocol (MCP) server that will provide all of the [Mike Creighton Consulting website](https://mikecreighton.com) pages as Resources to any MCP clients.
 
 ## Primary Use Case
 
