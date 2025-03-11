@@ -6,16 +6,49 @@ This is a local Model Context Protocol (MCP) server that will provide all of the
 
 It's a way for me to collaborate with Claude on marketing strategies, content ideas, content critiques, and content creation. It also acts as an easy way to keep Claude up-to-date on what I'm doing with my consulting practice. Basically: Claude can know my business better.
 
-## Tools
+## MCP Tools
 
 - `list_mikecreighton_website_pages` - Lists all available pages from the website
 - `get_mikecreighton_website_page_content` - Gets a specific page's content
 - `search_mikecreighton_website_pages` - A simple keyword search across page titles and page descriptions
 
-## Resources
+## MCP Resources
 
 - Each page is available as an individual named Resource in case I want to explictly reference a file within a conversation
 - The Resources are defined at runtime in their Markdown format
+
+## Requirements
+
+[`uv`](https://github.com/astral-sh/uv) is required to run this MCP server based on the configuration below. This will ensure that the correct python virtual environment is being used with zero setup.
+
+## Configuring Claude
+
+To use this with Claude Desktop, you'll need to update the `claude_desktop_config.json` file, which is located in different folders depending on your OS:
+
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+You can follow the Claude Desktop setup instructions [here](https://modelcontextprotocol.io/quickstart/user) for more detailed information.
+
+This is the configuration information for the server:
+
+```json
+{
+  "mcpServers": {
+      "Mike Creighton Consulting's Website Content": {
+          "command": "uv",
+          "args": [
+              "--directory",
+              "/absolute/path/to/mikecreighton-dot-com-content-mcp",
+              "run",
+              "server.py"
+          ]
+      }
+  }
+}
+```
+
+**Note:** you may have to specify the full path to the `uv` command.
 
 ## Example Queries
 
@@ -34,6 +67,7 @@ Finally, it creates a map of the website as a JSON object, representing the hier
 
 ```json
 {
+  "base": "{page_path}/{page}",
   "html": "./html/{page_path}/{page}.html",
   "markdown": "./markdown/{page_path}/{page}.md",
   "name": "{title of the page extracted from the <title> tag}",
