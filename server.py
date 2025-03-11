@@ -54,41 +54,49 @@ def read_file(file_path: str) -> Optional[str]:
         return None
 
 
-@mcp.tool("get_page_content")
-async def get_page_content(page_name: str) -> str:
-    """Get the markdown content for a page."""
+@mcp.tool("get_mikecreighton_website_page_content")
+async def get_page_content(page_id: str) -> str:
+    """
+    Tool that gets the Markdown content for a page on Mike Creighton Consulting's website (https://mikecreighton.com).
+
+    Args:
+        page_id: The unique identifier of the page to get the content for (discoverable using the `list_mikecreighton_website_pages` tool)
+
+    Returns:
+        The Markdown content for the page.
+    """
     site_map = load_site_map()
 
-    if page_name not in site_map:
-        raise ValueError(f"Page '{page_name}' not found")
+    if page_id not in site_map:
+        raise ValueError(f"Page '{page_id}' not found")
 
-    markdown_path = site_map[page_name].get("markdown", "")
+    markdown_path = site_map[page_id].get("markdown", "")
     if not markdown_path:
-        raise ValueError(f"No Markdown content available for '{page_name}'")
+        raise ValueError(f"No Markdown content available for '{page_id}'")
 
     content = read_file(markdown_path)
     if content is None:
-        raise ValueError(f"Could not read Markdown content for '{page_name}'")
+        raise ValueError(f"Could not read Markdown content for '{page_id}'")
 
     return content
 
 
 # Tools for model-controlled operations
-@mcp.tool("list_pages")
+@mcp.tool("list_mikecreighton_website_pages")
 async def list_pages() -> List[Dict[str, str]]:
     """
-    List all available pages with their titles and descriptions and the `page_name` which can be used with `get_page_content` to get the content of the page.
+    Tool that lists all available pages on Mike Creighton Consulting's website (https://mikecreighton.com). Pages will include their titles and descriptions and the `page_id` which can be used with the `get_mikecreighton_website_page_content` tool to get the full Markdown content of the page.
 
     Returns:
-        List of dictionaries with 'page_name', 'title', and 'description' for each page.
+        List of dictionaries with 'page_id', 'title', and 'description' for each page.
     """
     site_map = load_site_map()
     pages = []
 
-    for page_name, page_info in site_map.items():
+    for page_id, page_info in site_map.items():
         pages.append(
             {
-                "page_name": page_name,
+                "page_id": page_id,
                 "title": page_info.get("name", ""),
                 "description": page_info.get("description", ""),
             }
@@ -100,26 +108,30 @@ async def list_pages() -> List[Dict[str, str]]:
 @mcp.tool("search_pages")
 async def search_pages(query: str) -> List[Dict[str, str]]:
     """
-    Search for pages containing the query in title or description.
+    Tool that searches for pages on Mike Creighton Consulting's website (https://mikecreighton.com) containing exact string matches for the query in a page's title or description.
 
     Args:
         query: The search query.
 
     Returns:
-        List of matching pages with their metadata.
+        List of dictionaries each representing a page, each containing:
+            - page_id (str): Identifier for the page
+            - title (str): The page title
+            - description (str): Brief description of the page
+            - relevance (str): Either "high" (query in title) or "medium" (query in description)
     """
     site_map = load_site_map()
     results = []
 
     query = query.lower()
-    for page_name, page_info in site_map.items():
+    for page_id, page_info in site_map.items():
         title = page_info.get("name", "").lower()
         description = page_info.get("description", "").lower()
 
         if query in title or query in description:
             results.append(
                 {
-                    "page_name": page_name,
+                    "page_id": page_id,
                     "title": page_info.get("name", ""),
                     "description": page_info.get("description", ""),
                     "relevance": "high" if query in title else "medium",
