@@ -8,7 +8,10 @@ from typing import Dict, List, Any, Optional
 from pydantic import AnyUrl
 
 from mcp.server.fastmcp import FastMCP
-from mcp.types import Resource
+from mcp.types import (
+    Resource as MCPResource,
+)
+from mcp.server.fastmcp.resources.types import FileResource
 
 # Create an MCP server
 mcp = FastMCP("MikeCreighton.com Content")
@@ -151,5 +154,31 @@ if __name__ == "__main__":
             "Warning: site_map.json not found. Please run download.py first to crawl the website."
         )
     else:
+
+        # Add all the pages to the MCP server as resources
+        site_map_items = load_site_map()
+        for page_id, page_info in site_map_items.items():
+            # Get the markdown file path but strip off the leading ./
+            markdown_path = page_info["markdown"]
+            if markdown_path.startswith("./"):
+                markdown_path = markdown_path[2:]
+            full_cwd_path = os.path.join(os.getcwd(), markdown_path)
+
+            # We're going straight to the FileResource type here because it's a
+            # simple way to get the content of the file into the MCP server without
+            # having to handle the file reading logic. We need to do this because
+            # we don't want to use the @mcp.resource decorator since we can't
+            # dynamically create those functions at runtime.
+            mcp.add_resource(
+                FileResource(
+                    uri=f"mikecreighton://page/{page_id}",
+                    name=page_info["name"],
+                    description=page_info["description"],
+                    mime_type="text/markdown",
+                    path=full_cwd_path,
+                    is_binary=False,
+                )
+            )
+
         print("Starting MCP server...")
         mcp.run(transport="stdio")
