@@ -1,7 +1,7 @@
-#!/usr/bin/env python3
 """
 Model Context Protocol (MCP) server for MikeCreighton.com content.
 """
+
 import json
 import os
 from typing import Dict, List, Any, Optional

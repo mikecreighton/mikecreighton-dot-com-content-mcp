@@ -1,8 +1,8 @@
-#!/usr/bin/env python3
 """
 Script for crawling and downloading all HTML pages from mikecreighton.com,
 converting them to markdown, and creating a site map.
 """
+
 import os
 import json
 import logging
