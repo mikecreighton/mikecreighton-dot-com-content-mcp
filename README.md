@@ -61,6 +61,7 @@ This is the configuration information for the server:
 ## Utils
 
 `download.py`
+
 Crawls mikecreighton.com and downloads all pages as HTML files to the local `html` folder. It uses [`MarkItDown`](https://github.com/microsoft/markitdown) to the convert the HTML files into Markdown files, saving each HTML file's corresponding Markdown file into the local `markdown` folder.
 
 Finally, it creates a map of the website as a JSON object, representing the hierarchy of the original website. Each page consists of the following schema:
